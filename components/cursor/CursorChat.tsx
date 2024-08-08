@@ -8,14 +8,14 @@ const CursorChat = ({
   setCursorState,
   updateMyPresence,
 }: CursorChatProps) => {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    updateMyPresence({ message: e.target.value });
-    setCursorState({
-      mode: CursorMode.Chat,
-      previousMessage: null,
-      message: e.target.value,
-    });
-  };
+   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+     updateMyPresence({ message: e.target.value });
+     setCursorState({
+       mode: CursorMode.Chat,
+       previousMessage: null,
+       message: e.target.value,
+     });
+   };
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       setCursorState({
@@ -36,7 +36,10 @@ const CursorChat = ({
       {cursorState.mode === CursorMode.Chat && (
         <>
           <CursorSVG color="#000" />
-          <div className="absolute left-2 top-5 bg-blue-500 px-4 py-2 text-sm leading-relaxed text-white rounded-[20px]">
+          <div className="absolute left-2 top-5 bg-blue-500 px-4 
+          py-2 text-sm leading-relaxed text-white rounded-[20px]"
+            onKeyUp={(e) => e.stopPropagation()}
+          >
             {cursorState.previousMessage && (
               <div>{cursorState.previousMessage}</div>
             )}

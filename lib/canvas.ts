@@ -1,6 +1,5 @@
-import { fabric } from "fabric";
 import { v4 as uuid4 } from "uuid";
-
+import * as fabric from "fabric";
 import {
   CanvasMouseDown,
   CanvasMouseMove,
@@ -14,6 +13,7 @@ import {
 import { defaultNavElement } from "@/constants";
 import { createSpecificShape } from "./shapes";
 
+
 // initialize fabric canvas
 export const initializeFabric = ({
   fabricRef,
@@ -25,6 +25,18 @@ export const initializeFabric = ({
   // get canvas element
   const canvasElement = document.getElementById("canvas");
 
+
+  if (!canvasRef.current) {
+    console.error("Canvas element not found");
+    return null;
+  }
+
+  // Проверка на существующий экземпляр fabric.Canvas
+  if (fabricRef.current) {
+    console.error("Fabric canvas is already initialized");
+    return fabricRef.current;
+  }
+  
   // create fabric canvas
   const canvas = new fabric.Canvas(canvasRef.current, {
     width: canvasElement?.clientWidth,
@@ -63,7 +75,12 @@ export const handleCanvasMouseDown = ({
   if (selectedShapeRef.current === "freeform") {
     isDrawing.current = true;
     canvas.isDrawingMode = true;
-    canvas.freeDrawingBrush.width = 5;
+    if (canvas.freeDrawingBrush) {
+      canvas.freeDrawingBrush.width = 5;
+    } else {
+      canvas.freeDrawingBrush = new fabric.PencilBrush(canvas);
+      canvas.freeDrawingBrush.width = 5;
+    }
     return;
   }
 

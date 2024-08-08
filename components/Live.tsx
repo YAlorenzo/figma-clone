@@ -1,18 +1,68 @@
 import { useOthers } from "@liveblocks/react";
 import LiveCursors from "./cursor/LiveCursors";
-import { useMyPresence } from "@/liveblocks.config";
+import { useBroadcastEvent, useEventListener, useMyPresence } from "@/liveblocks.config";
 import { useCallback, useEffect, useState } from "react";
 import CursorChat from "./cursor/CursorChat";
-import { CursorMode, CursorState } from "@/types/type";
+import { CursorMode, CursorState, ReactionEvent } from "@/types/type";
 import ReactionSelector from "./reaction/ReactionButton";
+import FlyingReaction from "./reaction/FlyingReaction";
+import useInterval from "@/hooks/useInterval";
 
-const Live = () => {
+
+type Props = {
+  canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
+}
+
+const Live = ({canvasRef}: Props) => {
   const others = useOthers();
   const [{ cursor }, updateMyPresence] = useMyPresence() as any;
   const [cursorState, setCursorState] = useState<CursorState>({
     mode: CursorMode.Hidden,
   });
   const [reaction, setReaction] = useState<Reaction[]>([]);
+
+  const broadcast = useBroadcastEvent(); 
+
+  useInterval(() => {
+    setReaction((reaction) => reaction.filter((r) => r.timestamp > Date.now() - 4000))
+  }, 1000)
+
+  useInterval(() => {
+    if (
+      cursorState.mode === CursorMode.Reaction &&
+      cursorState.isPressed &&
+      cursor
+    ) {
+      setReaction((reactions) =>
+        reactions.concat([
+          {
+            point: { x: cursor.x, y: cursor.y },
+            value: cursorState.reaction,
+            timestamp: Date.now(),
+          },
+        ])
+      );
+      broadcast({
+        x: cursor.x,
+        y: cursor.y,
+        value: cursorState.reaction,
+      })
+    }
+  }, 100);
+
+  useEventListener((eventData) => {
+    const event = eventData.event as ReactionEvent;
+
+     setReaction((reactions) =>
+       reactions.concat([
+         {
+           point: { x: event.x, y: event.y },
+           value: event.value,
+           timestamp: Date.now(),
+         },
+       ])
+     );
+  })
 
   const handelPointerMove = useCallback(
     (event: React.PointerEvent) => {
@@ -50,13 +100,13 @@ const Live = () => {
     [cursorState.mode, setCursorState]
   );
 
-   const handlePointerUp = useCallback(() => {
-     setCursorState((state: CursorState) =>
-       cursorState.mode === CursorMode.Reaction
-         ? { ...state, isPressed: false }
-         : state
-     );
-   }, [cursorState.mode, setCursorState]);
+  const handlePointerUp = useCallback(() => {
+    setCursorState((state: CursorState) =>
+      cursorState.mode === CursorMode.Reaction
+        ? { ...state, isPressed: false }
+        : state
+    );
+  }, [cursorState.mode, setCursorState]);
 
   useEffect(() => {
     const onKeyUp = (e: KeyboardEvent) => {
@@ -92,18 +142,29 @@ const Live = () => {
   }, [updateMyPresence]);
 
   const setReactions = useCallback((reaction: string) => {
-      setCursorState({ mode: CursorMode.Reaction, reaction, isPressed: false });
-  }, [])
+    setCursorState({ mode: CursorMode.Reaction, reaction, isPressed: false });
+  }, []);
 
   return (
     <div
+      id="canvas"
       onPointerMove={handelPointerMove}
       onPointerDown={handelPointerDown}
       onPointerLeave={handelPointerLeave}
       onPointerUp={handlePointerUp}
       className="h-[100vh] w-full flex justify-center items-center text-center"
     >
-      <h1 className="text-2xl text-white">Hello World</h1>
+      <canvas ref={canvasRef} />
+
+      {reaction.map((reaction) => (
+        <FlyingReaction
+          key={reaction.timestamp.toString()}
+          x={reaction.point.x}
+          y={reaction.point.y}
+          timestamp={reaction.timestamp}
+          value={reaction.value}
+        />
+      ))}
 
       {cursor && (
         <CursorChat
@@ -115,9 +176,7 @@ const Live = () => {
       )}
 
       {cursorState.mode === CursorMode.ReactionSelector && (
-        <ReactionSelector
-          setReaction={setReactions}
-        />
+        <ReactionSelector setReaction={setReactions} />
       )}
       <LiveCursors others={others} />
     </div>
