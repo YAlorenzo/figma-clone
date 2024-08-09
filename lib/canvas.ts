@@ -391,7 +391,7 @@ export const renderCanvas = ({
        *
        * Fabric Namespace: http://fabricjs.com/docs/fabric.html
        */
-      "fabric"
+      "fabric" // Ожидалось аргументов: 1-2, получено: 3.
     );
   });
 
