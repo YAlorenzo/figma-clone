@@ -1,6 +1,11 @@
-import { useOthers } from "@liveblocks/react";
+
 import LiveCursors from "./cursor/LiveCursors";
-import { useBroadcastEvent, useEventListener, useMyPresence } from "@/liveblocks.config";
+import {
+  useBroadcastEvent,
+  useEventListener,
+  useMyPresence,
+  useOthers,
+} from "@/liveblocks.config";
 import { useCallback, useEffect, useState } from "react";
 import CursorChat from "./cursor/CursorChat";
 import { CursorMode, CursorState, ReactionEvent } from "@/types/type";
@@ -8,12 +13,11 @@ import ReactionSelector from "./reaction/ReactionButton";
 import FlyingReaction from "./reaction/FlyingReaction";
 import useInterval from "@/hooks/useInterval";
 
-
 type Props = {
   canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
-}
+};
 
-const Live = ({canvasRef}: Props) => {
+const Live = ({ canvasRef }: Props) => {
   const others = useOthers();
   const [{ cursor }, updateMyPresence] = useMyPresence() as any;
   const [cursorState, setCursorState] = useState<CursorState>({
@@ -21,11 +25,13 @@ const Live = ({canvasRef}: Props) => {
   });
   const [reaction, setReaction] = useState<Reaction[]>([]);
 
-  const broadcast = useBroadcastEvent(); 
+  const broadcast = useBroadcastEvent();
 
   useInterval(() => {
-    setReaction((reaction) => reaction.filter((r) => r.timestamp > Date.now() - 4000))
-  }, 1000)
+    setReaction((reaction) =>
+      reaction.filter((r) => r.timestamp > Date.now() - 4000)
+    );
+  }, 1000);
 
   useInterval(() => {
     if (
@@ -46,23 +52,23 @@ const Live = ({canvasRef}: Props) => {
         x: cursor.x,
         y: cursor.y,
         value: cursorState.reaction,
-      })
+      });
     }
   }, 100);
 
   useEventListener((eventData) => {
     const event = eventData.event as ReactionEvent;
 
-     setReaction((reactions) =>
-       reactions.concat([
-         {
-           point: { x: event.x, y: event.y },
-           value: event.value,
-           timestamp: Date.now(),
-         },
-       ])
-     );
-  })
+    setReaction((reactions) =>
+      reactions.concat([
+        {
+          point: { x: event.x, y: event.y },
+          value: event.value,
+          timestamp: Date.now(),
+        },
+      ])
+    );
+  });
 
   const handelPointerMove = useCallback(
     (event: React.PointerEvent) => {
@@ -147,12 +153,12 @@ const Live = ({canvasRef}: Props) => {
 
   return (
     <div
-      id="canvas"
+      id='canvas'
       onPointerMove={handelPointerMove}
       onPointerDown={handelPointerDown}
       onPointerLeave={handelPointerLeave}
       onPointerUp={handlePointerUp}
-      className="h-[100vh] w-full flex justify-center items-center text-center"
+      className='flex h-[100vh] w-full items-center justify-center text-center'
     >
       <canvas ref={canvasRef} />
 

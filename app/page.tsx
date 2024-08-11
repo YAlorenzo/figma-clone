@@ -10,6 +10,7 @@ import {
   handleCanvaseMouseMove,
   handleCanvasMouseDown,
   handleCanvasMouseUp,
+  handleCanvasObjectModified,
   handleResize,
   initializeFabric,
   renderCanvas,
@@ -22,7 +23,7 @@ export default function Page() {
   const fabricRef = useRef<fabric.Canvas | null>(null);
   const isDrawing = useRef(false);
   const shapeRef = useRef<fabric.Object | null>(null);
-  const selectedShapeRef = useRef<string | null>("rectangle");
+  const selectedShapeRef = useRef<string | null>(null);
   const activeObjectRef = useRef<fabric.Object | null>(null);
   const canvasObjects = useStorage((root) => root.canvasObjects);
   const syncShapeInStorage = useMutation(({ storage }, object) => {
@@ -51,43 +52,38 @@ export default function Page() {
   };
 
   useEffect(() => {
-    const canvas = initializeFabric({ fabricRef, canvasRef });
-    if (canvas) {
-      // if добавлян дли избежания ошибки:
-      // Возможно, "canvas" имеет значение null.ts(18047) Возможно, const canvas: fabric.Canvas | null;
+    const canvas = initializeFabric({ canvasRef, fabricRef });
 
-      canvas.on("mouse:down", (options) => {
-        handleCanvasMouseDown({
-          options,
-          canvas,
-          isDrawing,
-          shapeRef,
-          selectedShapeRef,
-        });
+    canvas.on("mouse:down", (options) => {
+      handleCanvasMouseDown({
+        options,
+        canvas,
+        isDrawing,
+        shapeRef,
+        selectedShapeRef,
       });
-
-      canvas.on("mouse:move", (options) => {
-        handleCanvaseMouseMove({
-          options,
-          canvas,
-          isDrawing,
-          shapeRef,
-          selectedShapeRef,
-          syncShapeInStorage,
-        });
+    });
+    canvas.on("mouse:move", (options) => {
+      handleCanvaseMouseMove({
+        options,
+        canvas,
+        isDrawing,
+        shapeRef,
+        selectedShapeRef,
+        syncShapeInStorage,
       });
-      canvas.on("mouse:up", (options) => {
-        handleCanvasMouseUp({
-          canvas,
-          isDrawing,
-          shapeRef,
-          selectedShapeRef,
-          syncShapeInStorage,
-          setActiveElement,
-          activeObjectRef,
-        });
+    });
+    canvas.on("mouse:up", (options) => {
+      handleCanvasMouseUp({
+        canvas,
+        isDrawing,
+        shapeRef,
+        selectedShapeRef,
+        syncShapeInStorage,
+        setActiveElement,
+        activeObjectRef,
       });
-    }
+    });
 
     window.addEventListener("resize", () => {
       handleResize({ fabricRef });
@@ -95,17 +91,21 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
-    renderCanvas({fabricRef, canvasObjects, activeObjectRef})
-  }, [canvasObjects])
+    renderCanvas({
+      fabricRef,
+      canvasObjects,
+      activeObjectRef,
+    });
+  }, [canvasObjects]);
 
   return (
-    <main className="h-screen overflow-hidden">
+    <main className='h-screen overflow-hidden'>
       <NavBar
         activeElement={activeElement}
         handleActiveElement={handleActiveElement}
       />
 
-      <section className="flex h-full flex-row">
+      <section className='flex h-full flex-row'>
         <LeftSidebar />
         <Live canvasRef={canvasRef} />
         <RightSidebar />
