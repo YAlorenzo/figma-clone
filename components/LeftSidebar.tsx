@@ -5,8 +5,21 @@ import Image from "next/image";
 
 import { getShapeInfo } from "@/lib/utils";
 
-const LeftSidebar = ({ allShapes }: { allShapes: Array<any> }) => {
+const LeftSidebar = ({ allShapes, fabricRef}: { allShapes: Array<any>, fabricRef: any,  }) => {
   // memoize the result of this function so that it doesn't change on every render but only when there are new shapes
+  const handleOnClickShape = (e: any) => {
+    const shapeId = e.currentTarget.id;
+    const canvas = fabricRef.current;
+
+    allShapes?.map((shape: any) => {
+      if (shape[0] === shapeId) {
+        // console.log(shape[1]);
+        console.log(shapeRef);
+        // canvas.setActiveObject(shape[1]);
+      }
+    })
+    // canvas.getActiveObjects();
+  }
   const memoizedShapes = useMemo(
     () => (
       <section className="flex flex-col border-t border-primary-grey-200 bg-primary-black text-primary-grey-300 min-w-[227px] sticky left-0 h-full max-sm:hidden select-none overflow-y-auto pb-20">
@@ -14,10 +27,13 @@ const LeftSidebar = ({ allShapes }: { allShapes: Array<any> }) => {
         <div className="flex flex-col">
           {allShapes?.map((shape: any) => {
             const info = getShapeInfo(shape[1]?.type);
+            // console.log(allShapes, 'это инфо');
 
             return (
               <div
+                onClick={handleOnClickShape}
                 key={shape[1]?.objectId}
+                id={shape[1]?.objectId}
                 className="group my-1 flex items-center gap-2 px-5 py-2.5 hover:cursor-pointer hover:bg-primary-green hover:text-primary-black"
               >
                 <Image
@@ -34,6 +50,8 @@ const LeftSidebar = ({ allShapes }: { allShapes: Array<any> }) => {
         </div>
       </section>
     ),
+    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [allShapes?.length]
   );
 

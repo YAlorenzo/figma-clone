@@ -15,8 +15,7 @@ type OverlayThreadProps = {
 
 export const CommentsOverlay = () => {
   const { threads } = useThreads();
-
-  console.log(threads);
+  // console.log(threads);
   // get the max z-index of a thread
   const maxZIndex = useMaxZIndex();
 

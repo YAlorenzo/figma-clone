@@ -56,6 +56,8 @@ export const handleCanvasMouseDown = ({
    */
   const target = canvas.findTarget(options.e, false);
 
+  console.log(options.e, "target");
+
   // set canvas drawing mode to false
   canvas.isDrawingMode = false;
 

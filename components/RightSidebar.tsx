@@ -29,9 +29,9 @@ const RightSidebar = ({
       syncShapeInStorage,
     });
 
-    console.log(value, "это валью");
-    console.log(property, "это проперти");
-    console.log(isEditingRef);
+    // console.log(value, "это валью");
+    // console.log(property, "это проперти");
+    // console.log(isEditingRef);
   };
   return (
     <section
