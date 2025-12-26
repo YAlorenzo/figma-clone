@@ -1,6 +1,5 @@
 # 🎨 figma-clone - Real-Time Collaborative Design Tool
 
-> A modern, real-time collaborative design tool inspired by Figma. Create, collaborate, and design together with live cursors, comments, and instant synchronization.
 
 ## 📖 About the Project
 
