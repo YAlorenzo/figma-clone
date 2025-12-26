@@ -1,31 +1,10 @@
-# 🎨 Tigma - Real-Time Collaborative Design Tool
+# 🎨 figma-clone - Real-Time Collaborative Design Tool
 
 > A modern, real-time collaborative design tool inspired by Figma. Create, collaborate, and design together with live cursors, comments, and instant synchronization.
 
-[![Next.js](https://img.shields.io/badge/Next.js-14.1.0-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-18.2-blue?style=for-the-badge&logo=react)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
-[![Liveblocks](https://img.shields.io/badge/Liveblocks-Real--time-ff6b6b?style=for-the-badge)](https://liveblocks.io/)
-[![Fabric.js](https://img.shields.io/badge/Fabric.js-5.3-purple?style=for-the-badge)](http://fabricjs.com/)
-
----
-
-## 📸 Demo & Screenshots
-
-### 🚀 Live Demo
-**[🚧 Add your deployment link here - Vercel/Netlify]**
-
-### 🖼️ App Screenshot
-![App Screenshot](path/to/screenshot.png)
-
-> **Note:** Replace `path/to/screenshot.png` with your actual screenshot path or add a GIF demonstration showing the real-time collaboration features.
-
----
-
 ## 📖 About the Project
 
-**Tigma** is a powerful, browser-based design tool that enables teams to collaborate in real-time on creative projects. Built with cutting-edge web technologies, it combines the flexibility of a design tool with the power of real-time collaboration.
+**Figma-clone** is a powerful, browser-based design tool that enables teams to collaborate in real-time on creative projects. Built with cutting-edge web technologies, it combines the flexibility of a design tool with the power of real-time collaboration.
 
 ### 🎯 Problem It Solves
 
@@ -179,52 +158,6 @@ figma-clone/
 
 ---
 
-## 🚀 Getting Started
-
-### Prerequisites
-
-- **Node.js** 18+ and npm/yarn/pnpm
-- **Liveblocks API Key** - Get yours at [liveblocks.io](https://liveblocks.io)
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/figma-clone.git
-   cd figma-clone
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   # or
-   yarn install
-   # or
-   pnpm install
-   ```
-
-3. **Set up environment variables**
-   
-   Create a `.env.local` file in the root directory:
-   ```env
-   NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY=your_liveblocks_public_key_here
-   ```
-
-4. **Run the development server**
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   # or
-   pnpm dev
-   ```
-
-5. **Open your browser**
-   
-   Navigate to [http://localhost:3000](http://localhost:3000)
-
----
-
 ## ⌨️ Keyboard Shortcuts
 
 | Shortcut | Action |
@@ -299,88 +232,5 @@ Modern React framework features:
 
 ---
 
-## 🔧 Available Scripts
+⭐ Star this repo if you find interesting!
 
-```bash
-# Development
-npm run dev          # Start development server
-
-# Production
-npm run build        # Build for production
-npm run start        # Start production server
-
-# Code Quality
-npm run lint         # Run ESLint
-```
-
----
-
-## 🌐 Deployment
-
-### Vercel (Recommended)
-
-1. Push your code to GitHub
-2. Import your repository on [Vercel](https://vercel.com)
-3. Add your environment variables:
-   - `NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY`
-4. Deploy!
-
-### Other Platforms
-
-This Next.js app can be deployed on:
-- **Netlify**
-- **AWS Amplify**
-- **Railway**
-- **Any Node.js hosting platform**
-
----
-
-## 📝 Environment Variables
-
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY` | Your Liveblocks public API key | ✅ Yes |
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
----
-
-## 🙏 Acknowledgments
-
-- [Figma](https://www.figma.com) - Inspiration for the design
-- [Liveblocks](https://liveblocks.io) - Real-time collaboration infrastructure
-- [Fabric.js](http://fabricjs.com/) - Canvas manipulation library
-- [Radix UI](https://www.radix-ui.com/) - Accessible component primitives
-
----
-
-## 📞 Contact & Support
-
-- **Issues**: [GitHub Issues](https://github.com/yourusername/figma-clone/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/figma-clone/discussions)
-
----
-
-<div align="center">
-
-**Made with ❤️ and TypeScript**
-
-⭐ Star this repo if you find it helpful!
-
-</div>
